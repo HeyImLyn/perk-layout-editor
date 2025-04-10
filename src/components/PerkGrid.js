@@ -38,7 +38,12 @@ export default function PerkGrid() {
             onDragStart={(e) => e.dataTransfer.setData('text/plain', JSON.stringify(perk))}
             className="p-2 bg-gray-700 rounded cursor-move flex flex-col items-center"
           >
-            <img src={perk.imageUrl} alt={perk.name} className="w-16 h-16 mb-1 object-contain" />
+            <img
+              src={perk.imageUrl}
+              alt={perk.name}
+              referrerPolicy="no-referrer"
+              className="w-[256px] h-[256px] mb-1 object-contain"
+            />
             <span className="text-sm text-center">{perk.name}</span>
           </div>
         ))}
@@ -52,11 +57,16 @@ export default function PerkGrid() {
               const data = JSON.parse(e.dataTransfer.getData('text/plain'));
               handleDrop(idx, data);
             }}
-            className="h-28 bg-gray-800 rounded flex items-center justify-center"
+            className="h-[270px] bg-gray-800 rounded flex items-center justify-center"
           >
             {slot ? (
               <div className="text-center">
-                <img src={slot.imageUrl} alt={slot.name} className="w-16 h-16 mx-auto mb-1 object-contain" />
+                <img
+                  src={slot.imageUrl}
+                  alt={slot.name}
+                  referrerPolicy="no-referrer"
+                  className="w-[256px] h-[256px] mx-auto mb-1 object-contain"
+                />
                 <p className="text-sm">{slot.name}</p>
                 <button onClick={() => removePerk(idx)} className="text-xs text-red-400 mt-1">Remove</button>
               </div>
