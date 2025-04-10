@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import perksData from '../data/perks.json';
+import React, { useState } from 'react';
+import perks from '../data/perks.json';
 
 export default function PerkGrid() {
   const [search, setSearch] = useState('');
   const [slots, setSlots] = useState([null, null, null, null]);
 
-  const filtered = perksData.filter(p => p.name.toLowerCase().includes(search.toLowerCase()));
+  const filtered = perks.filter(p => p.name.toLowerCase().includes(search.toLowerCase()));
 
   const handleDrop = (index, perk) => {
     if (!slots[index]) {
@@ -38,7 +38,7 @@ export default function PerkGrid() {
             onDragStart={(e) => e.dataTransfer.setData('text/plain', JSON.stringify(perk))}
             className="p-2 bg-gray-700 rounded cursor-move flex flex-col items-center"
           >
-            <img src={perk.imageUrl} alt={perk.name} className="w-12 h-12 mb-1" />
+            <img src={perk.imageUrl} alt={perk.name} className="w-16 h-16 mb-1 object-contain" />
             <span className="text-sm text-center">{perk.name}</span>
           </div>
         ))}
@@ -56,7 +56,7 @@ export default function PerkGrid() {
           >
             {slot ? (
               <div className="text-center">
-                <img src={slot.imageUrl} alt={slot.name} className="w-12 h-12 mx-auto mb-1" />
+                <img src={slot.imageUrl} alt={slot.name} className="w-16 h-16 mx-auto mb-1 object-contain" />
                 <p className="text-sm">{slot.name}</p>
                 <button onClick={() => removePerk(idx)} className="text-xs text-red-400 mt-1">Remove</button>
               </div>
