@@ -11,17 +11,18 @@ export default function PerkGrid() {
     fetch(SHEET_CSV_URL)
       .then(res => res.text())
       .then(text => {
-        const lines = text.split('\n');
+        const lines = text.split('\n').filter(Boolean);
         const data = lines.slice(1).map(line => {
           const values = line.split(',');
+          if (values.length < 6) return null;
           return {
-            name: values[1],
-            tab: values[2],
-            group: values[3],
-            imageUrl: values[5],
-            filename: values[0],
+            name: values[1]?.trim(),
+            tab: values[2]?.trim(),
+            group: values[3]?.trim(),
+            imageUrl: values[5]?.trim(),
+            filename: values[0]?.trim(),
           };
-        }).filter(row => row.tab === "Perks");
+        }).filter(row => row && row.tab === "Perks");
         setPerks(data);
       });
   }, []);
@@ -64,6 +65,7 @@ export default function PerkGrid() {
               alt={perk.name}
               referrerPolicy="no-referrer"
               className="w-[256px] h-[256px] mb-1 object-contain"
+              onError={(e) => { e.target.style.display = 'none'; }}
             />
             <span className="text-sm text-center">{perk.name}</span>
           </div>
@@ -87,6 +89,7 @@ export default function PerkGrid() {
                   alt={slot.name}
                   referrerPolicy="no-referrer"
                   className="w-[256px] h-[256px] mx-auto mb-1 object-contain"
+                  onError={(e) => { e.target.style.display = 'none'; }}
                 />
                 <p className="text-sm">{slot.name}</p>
                 <button onClick={() => removePerk(idx)} className="text-xs text-red-400 mt-1">Remove</button>

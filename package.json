@@ -1,5 +1,5 @@
 {
-  "name": "perk-layout-dynamic-sheet",
+  "name": "perk-layout-sheet-fixed",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
