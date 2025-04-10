@@ -63,9 +63,11 @@ export default function PerkGrid() {
             <img
               src={perk.imageUrl}
               alt={perk.name}
-              referrerPolicy="no-referrer"
-              className="w-[256px] h-[256px] mb-1 object-contain"
-              onError={(e) => { e.target.style.display = 'none'; }}
+              className="w-[256px] h-[256px] mb-1 object-contain bg-white"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = "https://via.placeholder.com/256?text=Missing+Image";
+              }}
             />
             <span className="text-sm text-center">{perk.name}</span>
           </div>
@@ -87,9 +89,11 @@ export default function PerkGrid() {
                 <img
                   src={slot.imageUrl}
                   alt={slot.name}
-                  referrerPolicy="no-referrer"
-                  className="w-[256px] h-[256px] mx-auto mb-1 object-contain"
-                  onError={(e) => { e.target.style.display = 'none'; }}
+                  className="w-[256px] h-[256px] mx-auto mb-1 object-contain bg-white"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "https://via.placeholder.com/256?text=Missing+Image";
+                  }}
                 />
                 <p className="text-sm">{slot.name}</p>
                 <button onClick={() => removePerk(idx)} className="text-xs text-red-400 mt-1">Remove</button>
