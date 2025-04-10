@@ -1,11 +1,33 @@
-import React, { useState } from 'react';
-import perks from '../data/perks.json';
+import React, { useEffect, useState } from 'react';
+
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT_FuVOyJgwaHzl4Oq7IMOk_j2PEnsuz_2Bru6WURcPDy0VOq_rst5a1zaHzCPP7u1I0S798oO2XJHp/pub?output=csv";
 
 export default function PerkGrid() {
+  const [perks, setPerks] = useState([]);
   const [search, setSearch] = useState('');
   const [slots, setSlots] = useState([null, null, null, null]);
 
-  const filtered = perks.filter(p => p.name.toLowerCase().includes(search.toLowerCase()));
+  useEffect(() => {
+    fetch(SHEET_CSV_URL)
+      .then(res => res.text())
+      .then(text => {
+        const lines = text.split('\n');
+        const headers = lines[0].split(',');
+        const data = lines.slice(1).map(line => {
+          const values = line.split(',');
+          return {
+            name: values[1],
+            tab: values[2],
+            group: values[3],
+            imageUrl: values[5],
+            filename: values[0],
+          };
+        }).filter(row => row.tab === "Perks");
+        setPerks(data);
+      });
+  }, []);
+
+  const filtered = perks.filter(p => p.name?.toLowerCase().includes(search.toLowerCase()));
 
   const handleDrop = (index, perk) => {
     if (!slots[index]) {
