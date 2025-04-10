@@ -1,18 +1,11 @@
-import React, { useState } from 'react';
-
-const perks = [
-  { id: '1', name: 'Sprint Burst' },
-  { id: '2', name: 'Dead Hard' },
-  { id: '3', name: 'Borrowed Time' },
-  { id: '4', name: 'Iron Will' },
-  { id: '5', name: 'Kindred' },
-];
+import React, { useState, useEffect } from 'react';
+import perksData from '../data/perks.json';
 
 export default function PerkGrid() {
   const [search, setSearch] = useState('');
   const [slots, setSlots] = useState([null, null, null, null]);
 
-  const filtered = perks.filter(p => p.name.toLowerCase().includes(search.toLowerCase()));
+  const filtered = perksData.filter(p => p.name.toLowerCase().includes(search.toLowerCase()));
 
   const handleDrop = (index, perk) => {
     if (!slots[index]) {
@@ -40,12 +33,13 @@ export default function PerkGrid() {
       <div className="grid grid-cols-5 gap-2 mb-6">
         {filtered.map(perk => (
           <div
-            key={perk.id}
+            key={perk.filename}
             draggable
             onDragStart={(e) => e.dataTransfer.setData('text/plain', JSON.stringify(perk))}
-            className="p-2 bg-gray-700 rounded cursor-move"
+            className="p-2 bg-gray-700 rounded cursor-move flex flex-col items-center"
           >
-            {perk.name}
+            <img src={perk.imageUrl} alt={perk.name} className="w-12 h-12 mb-1" />
+            <span className="text-sm text-center">{perk.name}</span>
           </div>
         ))}
       </div>
@@ -58,15 +52,16 @@ export default function PerkGrid() {
               const data = JSON.parse(e.dataTransfer.getData('text/plain'));
               handleDrop(idx, data);
             }}
-            className="h-24 bg-gray-800 rounded flex items-center justify-center"
+            className="h-28 bg-gray-800 rounded flex items-center justify-center"
           >
             {slot ? (
               <div className="text-center">
-                <p>{slot.name}</p>
-                <button onClick={() => removePerk(idx)} className="text-sm text-red-400 mt-2">Remove</button>
+                <img src={slot.imageUrl} alt={slot.name} className="w-12 h-12 mx-auto mb-1" />
+                <p className="text-sm">{slot.name}</p>
+                <button onClick={() => removePerk(idx)} className="text-xs text-red-400 mt-1">Remove</button>
               </div>
             ) : (
-              <p className="text-gray-500">Drop perk here</p>
+              <p className="text-gray-500 text-sm">Drop perk here</p>
             )}
           </div>
         ))}
