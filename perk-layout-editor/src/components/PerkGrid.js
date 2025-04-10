@@ -1,0 +1,1 @@
+// Perk grid component placeholder
