@@ -12,7 +12,6 @@ export default function PerkGrid() {
       .then(res => res.text())
       .then(text => {
         const lines = text.split('\n');
-        const headers = lines[0].split(',');
         const data = lines.slice(1).map(line => {
           const values = line.split(',');
           return {
